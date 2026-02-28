@@ -31,11 +31,11 @@ public class OrderDish {
 	
 	private Dish dish;
 	
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "orderId", nullable = false)
 	public Order getOrder() { return order; }
 	
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "dishId", nullable = false)
 	public Dish getDish() { return dish; }
 }
