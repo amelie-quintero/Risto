@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -26,13 +25,16 @@ public class Dish {
 	@NotNull
 	private String name;
 	
-	private Set<Ingredient> ingredients;
+	private Set<DishIngredient> dishIngredients;
 	
 	private Set<OrderDish> orderDishes;
 	
-	@ManyToMany(targetEntity = com.example.Risto.entities.Ingredient.class)
-	public Set<Ingredient> getIngredients() {
-		return ingredients;
+	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,
+			cascade = CascadeType.ALL,
+			mappedBy = "id",
+			orphanRemoval = true)
+	public Set<DishIngredient> getDishIngredients() {
+		return dishIngredients;
 	}
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.OrderDish.class,

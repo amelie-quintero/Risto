@@ -2,11 +2,12 @@ package com.example.Risto.entities;
 
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -28,10 +29,13 @@ public class Ingredient {
 	@PositiveOrZero
 	private Double amount;
 	
-	private Set<Dish> dishes;
+	private Set<DishIngredient> dishIngredients;
 	
-	@ManyToMany(targetEntity = com.example.Risto.entities.Dish.class, mappedBy = "ingredients")
-	public Set<Dish> getDishes() {
-		return dishes;
+	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,
+			cascade = CascadeType.ALL,
+			mappedBy = "id",
+			orphanRemoval = true)
+	public Set<DishIngredient> getDishIngredients() {
+		return dishIngredients;
 	}
 }
