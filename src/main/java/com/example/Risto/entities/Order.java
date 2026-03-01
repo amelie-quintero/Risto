@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -24,11 +26,13 @@ public class Order {
 	
 	private int userId;
 	
-	private Set<OrderDish> orderDishes;
-	
 	@OneToMany(targetEntity = com.example.Risto.entities.OrderDish.class,
 			cascade = CascadeType.ALL, 
 			mappedBy = "id", 
 			orphanRemoval = true)
-	public Set<OrderDish> orderDishes() { return orderDishes; };
+	private Set<OrderDish> orderDishes;
+	
+	@ManyToOne
+	@JoinColumn(name = "userid", nullable = false)
+	private User user;
 }

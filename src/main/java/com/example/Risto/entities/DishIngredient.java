@@ -27,19 +27,11 @@ public class DishIngredient {
 	@NotNull
 	private int ingredientId;
 	
-	private Dish dish;
-	
-	private Ingredient ingredient;
-	
 	@ManyToOne
 	@JoinColumn(name = "dishId", nullable = false)
-	public Dish getDish() {
-		return dish;
-	}
+	private Dish dish;
 	
 	@ManyToOne
 	@JoinColumn(name = "ingredientId", nullable = false)
-	public Ingredient getIngredient() {
-		return ingredient;
-	}
+	private Ingredient ingredient;
 }

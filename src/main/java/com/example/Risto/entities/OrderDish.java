@@ -27,15 +27,11 @@ public class OrderDish {
 	@NotNull
 	private int dishId;
 	
-	private Order order;
-	
-	private Dish dish;
-	
 	@ManyToOne
 	@JoinColumn(name = "orderId", nullable = false)
-	public Order getOrder() { return order; }
+	private Order order;
 	
 	@ManyToOne
 	@JoinColumn(name = "dishId", nullable = false)
-	public Dish getDish() { return dish; }
+	private Dish dish;
 }

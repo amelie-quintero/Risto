@@ -25,23 +25,15 @@ public class Dish {
 	@NotNull
 	private String name;
 	
-	private Set<DishIngredient> dishIngredients;
-	
-	private Set<OrderDish> orderDishes;
-	
 	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,
 			cascade = CascadeType.ALL,
 			mappedBy = "id",
 			orphanRemoval = true)
-	public Set<DishIngredient> getDishIngredients() {
-		return dishIngredients;
-	}
+	private Set<DishIngredient> dishIngredients;
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.OrderDish.class,
 			cascade = CascadeType.ALL, 
 			mappedBy = "id", 
 			orphanRemoval = true)
-	public Set<OrderDish> getOrderDishes() {
-		return orderDishes;
-	}
+	private Set<OrderDish> orderDishes;
 }

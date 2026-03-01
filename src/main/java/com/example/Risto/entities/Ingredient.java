@@ -29,13 +29,9 @@ public class Ingredient {
 	@PositiveOrZero
 	private Double amount;
 	
-	private Set<DishIngredient> dishIngredients;
-	
 	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,
 			cascade = CascadeType.ALL,
 			mappedBy = "id",
 			orphanRemoval = true)
-	public Set<DishIngredient> getDishIngredients() {
-		return dishIngredients;
-	}
+	private Set<DishIngredient> dishIngredients;
 }
