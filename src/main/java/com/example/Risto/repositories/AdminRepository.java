@@ -7,4 +7,6 @@ import com.example.Risto.entities.Admin;
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
 	
 	public Admin findAdminByEmail(String email);
+	
+	public Admin findAdminByUsername(String username);
 }
