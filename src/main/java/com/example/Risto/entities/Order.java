@@ -22,6 +22,8 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	private int userId;
+	
 	private Set<OrderDish> orderDishes;
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.OrderDish.class,
