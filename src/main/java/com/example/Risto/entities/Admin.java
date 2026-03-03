@@ -28,4 +28,6 @@ public class Admin {
 	
 	@NotNull
 	private String password;
+	
+	private boolean isActive;
 }
