@@ -1,5 +1,6 @@
 package com.example.Risto.entities;
 
+import java.sql.Date;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -25,6 +26,8 @@ public class Order {
 	private int id;
 	
 	private int userId;
+	
+	private Date date;
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.OrderDish.class,
 			cascade = CascadeType.ALL, 
