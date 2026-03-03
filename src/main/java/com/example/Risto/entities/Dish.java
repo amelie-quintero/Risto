@@ -25,6 +25,9 @@ public class Dish {
 	@NotNull
 	private String name;
 	
+	@NotNull
+	private Double price;
+	
 	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,
 			cascade = CascadeType.ALL,
 			mappedBy = "id",
