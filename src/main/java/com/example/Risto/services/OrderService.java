@@ -78,5 +78,12 @@ public class OrderService {
 		for (OrderDish od : orderDishes) {
 			dishService.processDish(od.getDish(), make);
 		}
+		
+		if (make) {
+			order.setStatus(OrderStatus.COMPLETED);
+		} else {
+			order.setStatus(OrderStatus.QUEUED);
+		}
+		orderStore.save(order);
 	}
 }
