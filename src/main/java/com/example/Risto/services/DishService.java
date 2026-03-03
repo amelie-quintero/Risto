@@ -13,13 +13,20 @@ import com.example.Risto.entities.DishIngredient;
 import com.example.Risto.entities.Ingredient;
 import com.example.Risto.entities.Order;
 import com.example.Risto.entities.OrderDish;
+import com.example.Risto.exceptions.MissingIngredientException;
 import com.example.Risto.repositories.DishRepository;
+import com.example.Risto.repositories.IngredientRepository;
+
+import jakarta.transaction.Transactional;
 
 @Component
 public class DishService {
 	
 	@Autowired
 	private DishRepository dishStore;
+	
+	@Autowired
+	private IngredientRepository ingredientStore;
 	
 	public Dish getDishByName(String name) {
 		Optional<Dish> dishOpt = this.dishStore.findByName(name);
@@ -49,5 +56,27 @@ public class DishService {
 		List<Order> orders = new ArrayList<Order>();
 		orderDishes.forEach(od -> {orders.add(od.getOrder());});
 		return orders;
+	}
+	
+	@Transactional(rollbackOn = {MissingIngredientException.class})
+	public void processDish(Dish dish, Boolean make) throws MissingIngredientException {
+		if (Boolean.TRUE != make) make = Boolean.FALSE; //set default value
+		
+		Set<DishIngredient> dishIngredients = dish.getDishIngredients();
+		List<String> missingIng = new ArrayList<String>();
+		List<Ingredient> ingredients = new ArrayList<Ingredient>();
+		for (DishIngredient di : dishIngredients) {
+			Ingredient i = di.getIngredient();
+			Double newAmount = i.getAmount() - di.getAmount();
+			if (newAmount < Double.valueOf(0.0)) {
+				missingIng.add(i.getName());
+			}
+			i.setAmount(newAmount);
+			ingredients.add(i);
+		}
+		if (missingIng.size() > 0) {
+			throw new MissingIngredientException(missingIng);
+		}
+		ingredientStore.saveAll(ingredients);
 	}
 }
