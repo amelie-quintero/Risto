@@ -27,9 +27,7 @@ public class OrderService {
 	public List<Dish> getDishesInOrder(Order order) {
 		Set<OrderDish> orderDishes = order.getOrderDishes();
 		List<Dish> dishes = new ArrayList<Dish>();
-		for (OrderDish od : orderDishes) {
-			dishes.add(od.getDish());
-		}
+		orderDishes.forEach(od -> {dishes.add(od.getDish());});
 		return dishes;
 	}
 	
