@@ -3,8 +3,12 @@ package com.example.Risto.entities;
 import java.sql.Date;
 import java.util.Set;
 
+import com.example.Risto.constants.OrderStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,6 +32,9 @@ public class Order {
 	private int userId;
 	
 	private Date date;
+	
+	@Enumerated(EnumType.STRING)
+	private OrderStatus status;
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.OrderDish.class,
 			cascade = CascadeType.ALL, 

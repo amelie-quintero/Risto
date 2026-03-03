@@ -1,5 +1,6 @@
 package com.example.Risto.services;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.Risto.constants.OrderStatus;
 import com.example.Risto.entities.Dish;
 import com.example.Risto.entities.Order;
 import com.example.Risto.entities.OrderDish;
@@ -50,5 +52,15 @@ public class OrderService {
 			return true;
 		}
 		return false;
+	}
+	
+	public List<Order> findOrdersInDateRange(Date startDate, Date endDate) {
+		List<Order> orders = this.orderStore.findByDateBetween(startDate, endDate);
+		return orders;
+	}
+	
+	public List<Order> getOrdersWithStatus(OrderStatus status) {
+		List<Order> orders = this.orderStore.findByStatus(status);
+		return orders;
 	}
 }
