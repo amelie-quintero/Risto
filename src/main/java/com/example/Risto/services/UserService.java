@@ -30,8 +30,8 @@ public class UserService {
 		return users;
 	}
 	
-	public User getUser(int id) {
-		Optional<User> userOpt = this.userStore.findById(id);
+	public User getUser(int userId) {
+		Optional<User> userOpt = this.userStore.findById(userId);
 		User user = userOpt.get();
 		return user;
 	}
@@ -42,8 +42,8 @@ public class UserService {
 		return user;
 	}
 	
-	public User getUserByUsername(String name) {
-		Optional<User> userOpt = this.userStore.findByUsername(name);
+	public User getUserByUsername(String username) {
+		Optional<User> userOpt = this.userStore.findByUsername(username);
 		User user = userOpt.get();
 		return user;
 	}
@@ -57,8 +57,8 @@ public class UserService {
 		setUserActive(user, true);
 	}
 	
-	public boolean activateUserById(int id) {
-		Optional<User> userOpt = this.userStore.findById(id);
+	public boolean activateUser(int userId) {
+		Optional<User> userOpt = this.userStore.findById(userId);
 		if (userOpt.isPresent()) {
 			setUserActive(userOpt.get(), true);
 			return true;
@@ -70,12 +70,20 @@ public class UserService {
 		setUserActive(user, false);
 	}
 	
-	public boolean deactivateUserById(int id) {
-		Optional<User> userOpt = this.userStore.findById(id);
+	public boolean deactivateUser(int userId) {
+		Optional<User> userOpt = this.userStore.findById(userId);
 		if (userOpt.isPresent()) {
 			setUserActive(userOpt.get(), false);
 			return true;
 		}
 		return false;
+	}
+	
+	public void deleteUser(User user) {
+		this.userStore.delete(user);
+	}
+	
+	public void deleteUser(int userId) {
+		this.userStore.deleteById(userId);
 	}
 }
