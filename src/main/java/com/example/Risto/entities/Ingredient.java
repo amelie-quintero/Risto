@@ -29,6 +29,9 @@ public class Ingredient {
 	@PositiveOrZero
 	private Double amount;
 	
+	@PositiveOrZero
+	private Double lowThreshold;
+	
 	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,
 			cascade = CascadeType.ALL,
 			mappedBy = "id",
