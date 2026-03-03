@@ -74,6 +74,10 @@ public class OrderService {
 	public void processOrder(Order order, Boolean make) throws MissingIngredientException {
 		if (Boolean.TRUE != make) make = Boolean.FALSE;
 		
+		if (order.getStatus() == OrderStatus.COMPLETED) {
+			return;
+		}
+		
 		Set<OrderDish> orderDishes = order.getOrderDishes();
 		for (OrderDish od : orderDishes) {
 			dishService.processDish(od.getDish(), make);
@@ -82,7 +86,7 @@ public class OrderService {
 		if (make) {
 			order.setStatus(OrderStatus.COMPLETED);
 		} else {
-			order.setStatus(OrderStatus.QUEUED);
+			order.setStatus(OrderStatus.INPROGRESS);
 		}
 		orderStore.save(order);
 	}
