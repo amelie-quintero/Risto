@@ -27,6 +27,9 @@ public class DishIngredient {
 	@NotNull
 	private int ingredientId;
 	
+	@NotNull
+	private Double amount;
+	
 	@ManyToOne
 	@JoinColumn(name = "dishId", nullable = false)
 	private Dish dish;
