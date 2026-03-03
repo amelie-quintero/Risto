@@ -13,13 +13,19 @@ import com.example.Risto.constants.OrderStatus;
 import com.example.Risto.entities.Dish;
 import com.example.Risto.entities.Order;
 import com.example.Risto.entities.OrderDish;
+import com.example.Risto.exceptions.MissingIngredientException;
 import com.example.Risto.repositories.OrderRepository;
+
+import jakarta.transaction.Transactional;
 
 @Component
 public class OrderService {
 	
 	@Autowired
 	private OrderRepository orderStore;
+	
+	@Autowired
+	private DishService dishService;
 	
 	public List<Order> getOrdersForUser(int userId) {
 		List<Order> orders = this.orderStore.findByUserId(userId);
@@ -62,5 +68,15 @@ public class OrderService {
 	public List<Order> getOrdersWithStatus(OrderStatus status) {
 		List<Order> orders = this.orderStore.findByStatus(status);
 		return orders;
+	}
+	
+	@Transactional(rollbackOn = {MissingIngredientException.class})
+	public void processOrder(Order order, Boolean make) throws MissingIngredientException {
+		if (Boolean.TRUE != make) make = Boolean.FALSE;
+		
+		Set<OrderDish> orderDishes = order.getOrderDishes();
+		for (OrderDish od : orderDishes) {
+			dishService.processDish(od.getDish(), make);
+		}
 	}
 }
