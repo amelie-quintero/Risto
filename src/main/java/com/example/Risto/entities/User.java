@@ -34,7 +34,7 @@ public class User {
 	@NotNull
 	private String password;
 	
-	private boolean isActive;
+	private Boolean active;
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.Order.class,
 			cascade = CascadeType.ALL,
