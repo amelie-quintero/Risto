@@ -29,5 +29,5 @@ public class Admin {
 	@NotNull
 	private String password;
 	
-	private boolean isActive;
+	private Boolean active;
 }
