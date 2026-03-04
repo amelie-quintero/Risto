@@ -67,4 +67,6 @@ public class UserTests {
 		this.user.setActive(null);
 		assertNull(this.user.getActive());
 	}
+	
+//	TODO ADD VALIDATION TEST CASES
 }
