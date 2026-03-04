@@ -1,7 +1,10 @@
 package com.example.Risto.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
@@ -93,5 +96,18 @@ public class AdminTests {
 		
 		assertEquals(1, violations.size());
 		assertEquals("must be a well-formed email address", violations.get(0).getMessage());
+	}
+	
+	@Test
+	@DisplayName(value = "Test for active field")
+	void testAdminfield() {
+		this.admin.setActive(false);
+		assertFalse(this.admin.getActive());
+		
+		this.admin.setActive(true);
+		assertTrue(this.admin.getActive());
+		
+		this.admin.setActive(null);
+		assertNull(this.admin.getActive());
 	}
 }
