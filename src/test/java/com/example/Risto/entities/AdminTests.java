@@ -22,7 +22,7 @@ public class AdminTests {
 	
 	@BeforeEach
 	void setup() {
-		this.admin = new Admin();
+		this.admin = Admin.builder().build();
 	}
 
 	@Test

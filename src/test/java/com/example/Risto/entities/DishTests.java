@@ -14,7 +14,7 @@ public class DishTests {
 	
 	@BeforeEach
 	void setup() {
-		this.dish = new Dish();
+		this.dish = Dish.builder().build();
 	}
 	
 	@Test

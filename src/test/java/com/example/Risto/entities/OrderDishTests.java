@@ -13,7 +13,7 @@ public class OrderDishTests {
 	
 	@BeforeEach
 	void setup() {
-		this.orderDish = new OrderDish();
+		this.orderDish = OrderDish.builder().build();
 	}
 	
 	@Test

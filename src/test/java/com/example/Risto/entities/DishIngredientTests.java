@@ -13,7 +13,7 @@ public class DishIngredientTests {
 	
 	@BeforeEach
 	void setup() {
-		this.dishIngredient = new DishIngredient();
+		this.dishIngredient = DishIngredient.builder().build();
 	}
 	
 	@Test

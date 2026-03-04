@@ -14,7 +14,7 @@ public class IngredientTests {
 	
 	@BeforeEach
 	void setup() {
-		this.ingredient = new Ingredient();
+		this.ingredient = Ingredient.builder().build();
 	}
 	
 	@Test

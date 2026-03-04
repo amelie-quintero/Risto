@@ -16,7 +16,7 @@ public class UserTests {
 	
 	@BeforeEach
 	void setup() {
-		this.user = new User();
+		this.user = User.builder().build();
 	}
 	
 	@Test

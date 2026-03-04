@@ -15,7 +15,7 @@ public class OrderTests {
 	
 	@BeforeEach
 	void setup() {
-		this.order = new Order();
+		this.order = Order.builder().build();
 	}
 	
 	@Test
