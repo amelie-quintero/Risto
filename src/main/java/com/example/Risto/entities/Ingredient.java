@@ -3,6 +3,7 @@ package com.example.Risto.entities;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,7 @@ public class Ingredient {
 	private Double amount;
 	
 	@PositiveOrZero
+	@Column(name = "low_threshold")
 	private Double lowThreshold;
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,

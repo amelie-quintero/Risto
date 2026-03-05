@@ -24,19 +24,13 @@ public class DishIngredient {
 	private int id;
 	
 	@NotNull
-	private int dishId;
-	
-	@NotNull
-	private int ingredientId;
-	
-	@NotNull
 	private Double amount;
 	
 	@ManyToOne
-	@JoinColumn(name = "dishId", nullable = false)
+	@JoinColumn(name = "dish_id", nullable = false)
 	private Dish dish;
 	
 	@ManyToOne
-	@JoinColumn(name = "ingredientId", nullable = false)
+	@JoinColumn(name = "ingredient_id", nullable = false)
 	private Ingredient ingredient;
 }

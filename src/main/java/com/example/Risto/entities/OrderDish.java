@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,17 +22,11 @@ public class OrderDish {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@NotNull
-	private int orderId;
-	
-	@NotNull
-	private int dishId;
-	
 	@ManyToOne
-	@JoinColumn(name = "orderId", nullable = false)
+	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;
 	
 	@ManyToOne
-	@JoinColumn(name = "dishId", nullable = false)
+	@JoinColumn(name = "dish_id", nullable = false)
 	private Dish dish;
 }
