@@ -65,5 +65,4 @@ public class DishIngredientTests {
 		DishIngredient di1 = entityManager.persistAndFlush(di);
 		assertEquals(ingredient2, di1.getIngredient());
 	}
-//	TODO ADD VALIDATION TEST CASES
 }
