@@ -14,6 +14,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 
 import com.example.Risto.constants.OrderStatus;
 import com.example.Risto.entities.Order;
@@ -27,18 +28,14 @@ public class OrderRepositoryTests {
 	private OrderRepository orderStore;
 	
 	@Autowired
-	private UserRepository userStore;
+	private TestEntityManager entityManager;
 	
 	private User user1, user2;
 	
 	@BeforeAll
 	void setup() {
-		List<User> users = (List<User>) userStore.saveAll(List.of(
-				User.builder().email("email1@example.com").username("user1").password("pw1").active(true).build(),
-				User.builder().email("email2@example.com").username("user2").password("pw2").active(true).build()
-		));
-		user1 = users.stream().filter(u -> u.getUsername() == "user1").findFirst().get();
-		user2 = users.stream().filter(u -> u.getUsername() == "user2").findFirst().get();
+		user1 = entityManager.persist(User.builder().email("email1@example.com").username("user1").password("pw1").active(true).build());
+		user2 = entityManager.persist(User.builder().email("email2@example.com").username("user2").password("pw2").active(true).build());
 	}
 	
 	@Test
