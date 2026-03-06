@@ -21,7 +21,7 @@ import com.example.Risto.entities.User;
 
 @DataJpaTest
 @TestInstance(Lifecycle.PER_CLASS)
-public class OrderRepositoryTest {
+public class OrderRepositoryTests {
 	
 	@Autowired
 	private OrderRepository orderStore;
