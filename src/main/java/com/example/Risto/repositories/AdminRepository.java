@@ -1,14 +1,14 @@
 package com.example.Risto.repositories;
 
-import java.util.Set;
-
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
 import com.example.Risto.entities.Admin;
 
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
 	
-	public Admin findByEmail(String email);
-	public Admin findByUsername(String username);
-	public Set<Admin> findByActiveTrue();
+	public Optional<Admin> findByEmail(String email);
+	public Optional<Admin> findByUsername(String username);
+	public List<Admin> findByActiveTrue();
 }
