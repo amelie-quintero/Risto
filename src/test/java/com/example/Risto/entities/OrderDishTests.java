@@ -2,6 +2,8 @@ package com.example.Risto.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 
@@ -11,10 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import com.example.Risto.config.TestAuditorConfig;
 import com.example.Risto.constants.OrderStatus;
 
 @DataJpaTest
+@Import(TestAuditorConfig.class)
 public class OrderDishTests {
 	
 	@Autowired
@@ -42,6 +48,18 @@ public class OrderDishTests {
 	@DisplayName(value = "Test that the id field is correctly populated on object creation")
 	void testId() {
 		assertNotEquals(0, od1.getId());
+	}
+	
+	@Test
+	@DisplayName(value = "Test that the created_at and updated_at value are correctly set by the auditor")
+	void testAuditing() {
+		assertNotNull(od1.getCreatedAt());
+		assertNotNull(od1.getUpdatedAt());
+		assertEquals(od1.getCreatedAt(), od1.getUpdatedAt());
+		
+		od1.setAmount(4);
+		OrderDish od2 = entityManager.persistAndFlush(od1);
+		assertTrue(od2.getUpdatedAt().isAfter(od2.getCreatedAt()));
 	}
 	
 	@Test
