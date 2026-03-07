@@ -12,7 +12,7 @@ import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class AuditedEntity {
+public abstract class AuditedEntity {
 
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@CreatedDate
