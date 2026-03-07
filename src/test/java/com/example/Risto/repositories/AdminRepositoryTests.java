@@ -22,7 +22,7 @@ public class AdminRepositoryTests {
 	@Autowired
 	private AdminRepository adminStore;
 	
-	private Admin admin1, admin2;
+	private Admin admin1;
 	
 	@Test
 	@DisplayName(value = "Test that data is persisted to the repository correctly and the id field is correctly generated")
