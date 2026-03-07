@@ -24,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class User extends AuditedEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "dishes")
-public class Dish {
+public class Dish extends AuditedEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

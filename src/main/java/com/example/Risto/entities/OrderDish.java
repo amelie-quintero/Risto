@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "orderdishes")
-public class OrderDish {
+public class OrderDish extends AuditedEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
