@@ -1,0 +1,70 @@
+package com.example.Risto.util;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public class AESUtil {
+	
+	public static final String SHA_CRYPT = "SHA-256";
+    public static final String AES_ALGORITHM = "AES";
+    public static final String AES_ALGORITHM_GCM = "AES/GCM/NoPadding";
+    
+    public static final Integer IV_LENGTH_ENCRYPT = 12;
+    public static final Integer TAG_LENGTH_ENCRYPT = 16;
+
+    @Value("${encrypt.SECRET_KEY}")
+    public static String SECRET_KEY;
+	
+	public static String encryptText(String plainText) throws Exception {
+        byte[] iv = new byte[IV_LENGTH_ENCRYPT];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(iv);
+
+        SecretKeySpec aesKey = generateAesKeyFromPassphrase();
+
+        Cipher cipher = Cipher.getInstance(AES_ALGORITHM_GCM);
+        GCMParameterSpec gcmSpec = new GCMParameterSpec(TAG_LENGTH_ENCRYPT * 8, iv);
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey, gcmSpec);
+
+        byte[] encryptedBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
+
+        byte[] combinedIvAndCipherText = new byte[iv.length + encryptedBytes.length];
+        System.arraycopy(iv, 0, combinedIvAndCipherText, 0, iv.length);
+        System.arraycopy(encryptedBytes, 0, combinedIvAndCipherText, iv.length, encryptedBytes.length);
+
+        return Base64.getEncoder().encodeToString(combinedIvAndCipherText);
+    }
+
+    public static String decryptText(String cipherText) throws Exception {
+        byte[] decodedCipherText = Base64.getDecoder().decode(cipherText);
+
+        SecretKeySpec aesKey = generateAesKeyFromPassphrase();
+
+        byte[] iv = new byte[IV_LENGTH_ENCRYPT];
+        System.arraycopy(decodedCipherText, 0, iv, 0, iv.length);
+        byte[] encryptedText = new byte[decodedCipherText.length - IV_LENGTH_ENCRYPT];
+        System.arraycopy(decodedCipherText, IV_LENGTH_ENCRYPT, encryptedText, 0, encryptedText.length);
+
+        GCMParameterSpec gcmSpec = new GCMParameterSpec(TAG_LENGTH_ENCRYPT * 8, iv);
+        Cipher cipher = Cipher.getInstance(AES_ALGORITHM_GCM);
+        cipher.init(Cipher.DECRYPT_MODE, aesKey, gcmSpec);
+
+        byte[] decryptedBytes = cipher.doFinal(encryptedText);
+
+        return new String(decryptedBytes, StandardCharsets.UTF_8);
+    }
+
+    private static SecretKeySpec generateAesKeyFromPassphrase() throws Exception {
+        MessageDigest sha256 = MessageDigest.getInstance(SHA_CRYPT);
+        byte[] keyBytes = sha256.digest(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        return new SecretKeySpec(keyBytes, AES_ALGORITHM);
+    }
+}
