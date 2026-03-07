@@ -1,5 +1,8 @@
 package com.example.Risto.entities;
 
+import com.example.Risto.helpers.EncryptedDataConverter;
+
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,9 +29,11 @@ public class Admin extends AuditedEntity {
 	
 	@NotNull
 	@Email
+	@Convert(converter = EncryptedDataConverter.class)
 	private String email;
 	
 	@NotNull
+	@Convert(converter = EncryptedDataConverter.class)
 	private String password;
 	
 	private Boolean active;

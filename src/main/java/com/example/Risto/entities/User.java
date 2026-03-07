@@ -2,7 +2,10 @@ package com.example.Risto.entities;
 
 import java.util.Set;
 
+import com.example.Risto.helpers.EncryptedDataConverter;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,9 +38,11 @@ public class User extends AuditedEntity {
 	
 	@NotNull
 	@Email
+	@Convert(converter = EncryptedDataConverter.class)
 	private String email;
 	
 	@NotNull
+	@Convert(converter = EncryptedDataConverter.class)
 	private String password;
 	
 	private Boolean active;
