@@ -29,6 +29,7 @@ public class Ingredient extends AuditedEntity {
 	@NotNull
 	private String name;
 	
+	@NotNull
 	@PositiveOrZero
 	private Double amount;
 	
