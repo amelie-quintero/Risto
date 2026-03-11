@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
+
 import com.example.Risto.entities.User;
 import com.example.Risto.repositories.UserRepository;
 
@@ -27,6 +29,11 @@ public class UserService {
 	public List<User> getInactiveUsers() {
 		List<User> users = this.userStore.findByActive(false);
 		return users;
+	}
+	
+	public boolean isActiveUser(int userId) {
+		User user = getUser(userId);
+		return !ObjectUtils.isEmpty(user) && user.getActive().booleanValue();
 	}
 	
 	public User getUser(int userId) {
