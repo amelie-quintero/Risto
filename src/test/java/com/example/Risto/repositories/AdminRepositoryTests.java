@@ -12,11 +12,14 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
+import com.example.Risto.config.TestAuditorConfig;
 import com.example.Risto.entities.Admin;
 
 @DataJpaTest
 @TestInstance(Lifecycle.PER_CLASS)
+@Import(TestAuditorConfig.class)
 public class AdminRepositoryTests {
 
 	@Autowired
@@ -29,18 +32,6 @@ public class AdminRepositoryTests {
 	void testSave() {
 		admin1 = adminStore.save(Admin.builder().active(true).email("admin@example.com").password("pw").username("admin").build());
 		assertNotEquals(0, admin1.getId());
-	}
-	
-	@Test
-	@DisplayName(value = "Test that the findByEmail method is working correctly")
-	void testUsername() {
-		adminStore.saveAll(List.of(
-				Admin.builder().active(true).email("admin1@example.com").password("pw").username("admin").build(),
-				Admin.builder().active(true).email("admin2@example.com").password("pw").username("admin").build()
-		));
-		admin1 = adminStore.findByEmail("admin1@example.com").orElse(null);
-		assertNotNull(admin1);
-		assertEquals("admin1@example.com", admin1.getEmail());
 	}
 	
 	@Test

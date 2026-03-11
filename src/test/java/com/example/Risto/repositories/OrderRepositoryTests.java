@@ -7,7 +7,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,13 +15,16 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
+import org.springframework.context.annotation.Import;
 
+import com.example.Risto.config.TestAuditorConfig;
 import com.example.Risto.constants.OrderStatus;
 import com.example.Risto.entities.Order;
 import com.example.Risto.entities.User;
 
 @DataJpaTest
 @TestInstance(Lifecycle.PER_CLASS)
+@Import(TestAuditorConfig.class)
 public class OrderRepositoryTests {
 	
 	@Autowired
@@ -32,10 +35,10 @@ public class OrderRepositoryTests {
 	
 	private User user1, user2;
 	
-	@BeforeAll
+	@BeforeEach
 	void setup() {
-		user1 = entityManager.persist(User.builder().email("email1@example.com").username("user1").password("pw1").active(true).build());
-		user2 = entityManager.persist(User.builder().email("email2@example.com").username("user2").password("pw2").active(true).build());
+		user1 = entityManager.persistAndFlush(User.builder().email("email1@example.com").username("user1").password("pw1").active(true).build());
+		user2 = entityManager.persistAndFlush(User.builder().email("email2@example.com").username("user2").password("pw2").active(true).build());
 	}
 	
 	@Test
