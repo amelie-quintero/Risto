@@ -41,7 +41,7 @@ public class OrderDishTests {
 		order1 = entityManager.persist(Order.builder().user(user).status(OrderStatus.PENDING).date(Date.valueOf("2000-12-10")).build());
 		dish1 = entityManager.persist(Dish.builder().name("dish1").price(12.0).build());
 		dish1 = entityManager.persist(Dish.builder().name("dish2").price(16.0).build());
-		od1 = entityManager.persistAndFlush(OrderDish.builder().order(order1).dish(dish1).amount(2).build());
+		od1 = entityManager.persistAndFlush(OrderDish.builder().order(order1).dish(dish1).notes("test").build());
 	}
 	
 	@Test
@@ -57,16 +57,16 @@ public class OrderDishTests {
 		assertNotNull(od1.getUpdatedAt());
 		assertEquals(od1.getCreatedAt(), od1.getUpdatedAt());
 		
-		od1.setAmount(4);
+		od1.setNotes("test");
 		OrderDish od2 = entityManager.persistAndFlush(od1);
 		assertTrue(od2.getUpdatedAt().isAfter(od2.getCreatedAt()));
 	}
 	
 	@Test
-	@DisplayName(value = "Test that the amount field is correctly written and read")
+	@DisplayName(value = "Test that the notes field is correctly written and read")
 	void testAmount() {
-		od1.setAmount(3);
+		od1.setNotes("test");
 		od2 = entityManager.persistAndFlush(od1);
-		assertEquals(3, od2.getAmount());
+		assertEquals("test", od2.getNotes());
 	}
 }

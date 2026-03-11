@@ -23,8 +23,7 @@ public class OrderDish extends AuditedEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Positive
-	private int amount;
+	private String notes;
 	
 	@ManyToOne
 	@JoinColumn(name = "order_id", nullable = false)
