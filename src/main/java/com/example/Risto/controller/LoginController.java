@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Risto.dto.LoginRequestDto;
+import com.example.Risto.dto.LoginRequestDTO;
 import com.example.Risto.services.AdminService;
 import com.example.Risto.services.UserService;
 
@@ -22,12 +22,12 @@ public class LoginController {
 	private AdminService adminService;
 	
 	@PostMapping("/user")
-	public boolean userLogin(@Valid LoginRequestDto data) {
+	public boolean userLogin(@Valid LoginRequestDTO data) {
 		return userService.userLogin(data.getUsername(), data.getPassword());
 	}
 	
 	@PostMapping("/admin")
-	public boolean adminLogin(@Valid LoginRequestDto data) {
+	public boolean adminLogin(@Valid LoginRequestDTO data) {
 		return adminService.adminLogin(data.getUsername(), data.getPassword());
 	}
 }
