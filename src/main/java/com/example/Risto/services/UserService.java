@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.example.Risto.entities.User;
 import com.example.Risto.repositories.UserRepository;
 
@@ -32,19 +31,19 @@ public class UserService {
 	
 	public User getUser(int userId) {
 		Optional<User> userOpt = this.userStore.findById(userId);
-		User user = userOpt.get();
+		User user = userOpt.orElse(null);
 		return user;
 	}
 	
 	public User getUserByEmail(String email) {
 		Optional<User> userOpt = this.userStore.findByEmail(email);
-		User user = userOpt.get();
+		User user = userOpt.orElse(null);
 		return user;
 	}
 	
 	public User getUserByUsername(String username) {
 		Optional<User> userOpt = this.userStore.findByUsername(username);
-		User user = userOpt.get();
+		User user = userOpt.orElse(null);
 		return user;
 	}
 	
@@ -85,5 +84,9 @@ public class UserService {
 	
 	public void deleteUser(int userId) {
 		this.userStore.deleteById(userId);
+	}
+	
+	public boolean userLogin(String username, String password) {
+		return !userStore.findUserLogin(username, password).isEmpty();
 	}
 }
