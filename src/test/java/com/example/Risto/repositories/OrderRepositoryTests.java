@@ -3,7 +3,7 @@ package com.example.Risto.repositories;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public class OrderRepositoryTests {
 	@Test
 	@DisplayName(value = "Test that data is correctly persisted to the OrderRepository")
 	void testPersist() {
-		Order order = orderStore.save(Order.builder().user(user1).date(Date.valueOf("2000-12-31")).status(OrderStatus.PENDING).build());
+		Order order = orderStore.save(Order.builder().user(user1).date(LocalDateTime.now()).status(OrderStatus.PENDING).build());
 		int oId = order.getId();
 		
 		Optional<Order> fetchOrder = orderStore.findById(oId);
@@ -58,9 +58,9 @@ public class OrderRepositoryTests {
 	void testFindByUserId() {
 		int uId = user1.getId();
 		List<Order> orders = List.of(
-				Order.builder().user(user1).date(Date.valueOf("2000-12-31")).status(OrderStatus.PENDING).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-12-30")).status(OrderStatus.PENDING).build(),
-				Order.builder().user(user2).date(Date.valueOf("2000-11-30")).status(OrderStatus.PENDING).build()
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,31, 0, 0)).status(OrderStatus.PENDING).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,30, 0, 0)).status(OrderStatus.PENDING).build(),
+				Order.builder().user(user2).date(LocalDateTime.of(2000,11,30, 0, 0)).status(OrderStatus.PENDING).build()
 		);
 		orderStore.saveAll(orders);
 		
@@ -69,11 +69,11 @@ public class OrderRepositoryTests {
 		assertEquals(2, foundOrders.size());
 		
 		Optional<Order> order1 = foundOrders.stream()
-				.filter(order -> order.getDate().compareTo(Date.valueOf("2000-12-31")) == 0)
+				.filter(order -> order.getDate().compareTo(LocalDateTime.of(2000,12,31, 0, 0)) == 0)
 				.findAny();
 		
 		Optional <Order> order2 = foundOrders.stream()
-				.filter(order -> order.getDate().compareTo(Date.valueOf("2000-12-30")) == 0)
+				.filter(order -> order.getDate().compareTo(LocalDateTime.of(2000,12,30, 0, 0)) == 0)
 				.findAny();
 		assertTrue(order1.isPresent());
 		assertTrue(order2.isPresent());
@@ -83,16 +83,16 @@ public class OrderRepositoryTests {
 	@DisplayName(value = "Test that the findByDateBetween method is working")
 	void testFindByDateBetween() {
 		List<Order> orders = List.of(
-				Order.builder().user(user1).date(Date.valueOf("2000-12-31")).status(OrderStatus.PENDING).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-12-29")).status(OrderStatus.PENDING).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-11-30")).status(OrderStatus.PENDING).build()
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,31, 0, 0)).status(OrderStatus.PENDING).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,29, 0, 0)).status(OrderStatus.PENDING).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,11,30, 0, 0)).status(OrderStatus.PENDING).build()
 		);
 		orderStore.saveAll(orders);
 		
-		List<Order> foundNoneBecauseBefore = orderStore.findByDateBetween(Date.valueOf("2000-11-01"), Date.valueOf("2000-11-15"));
-		List<Order> foundFirstDate = orderStore.findByDateBetween(Date.valueOf("2000-11-01"), Date.valueOf("2000-12-01"));
-		List<Order> foundFirstTwoDates = orderStore.findByDateBetween(Date.valueOf("2000-11-15"), Date.valueOf("2000-12-30"));
-		List<Order> foundLastDate = orderStore.findByDateBetween(Date.valueOf("2000-12-30"), Date.valueOf("2001-01-01"));
+		List<Order> foundNoneBecauseBefore = orderStore.findByDateBetween(LocalDateTime.of(2000,11,1, 0, 0), LocalDateTime.of(2000,11,15, 0, 0));
+		List<Order> foundFirstDate = orderStore.findByDateBetween(LocalDateTime.of(2000,11,1, 0, 0), LocalDateTime.of(2000,12,1, 0, 0));
+		List<Order> foundFirstTwoDates = orderStore.findByDateBetween(LocalDateTime.of(2000,11,15, 0, 0), LocalDateTime.of(2000,12,30, 0, 0));
+		List<Order> foundLastDate = orderStore.findByDateBetween(LocalDateTime.of(2000,12,30, 0, 0), LocalDateTime.of(2001,1,1, 0, 0));
 		
 		assertTrue(foundNoneBecauseBefore.isEmpty());
 		assertEquals(1, foundFirstDate.size());
@@ -101,8 +101,8 @@ public class OrderRepositoryTests {
 		
 		assertEquals("2000-11-30", foundFirstDate.get(0).getDate().toString());
 		
-		assertTrue(foundFirstTwoDates.stream().anyMatch(order -> order.getDate().compareTo(Date.valueOf("2000-11-30")) == 0));
-		assertTrue(foundFirstTwoDates.stream().anyMatch(order -> order.getDate().compareTo(Date.valueOf("2000-12-29")) == 0));
+		assertTrue(foundFirstTwoDates.stream().anyMatch(order -> order.getDate().compareTo(LocalDateTime.of(2000,11,30, 0, 0)) == 0));
+		assertTrue(foundFirstTwoDates.stream().anyMatch(order -> order.getDate().compareTo(LocalDateTime.of(2000,12,29, 0, 0)) == 0));
 		
 		assertEquals("2000-12-31", foundLastDate.get(0).getDate().toString());
 	}
@@ -111,12 +111,12 @@ public class OrderRepositoryTests {
 	@DisplayName(value = "Test that the findByStatus method is working")
 	void testFindByStatus() {
 		List<Order> orders = List.of(
-				Order.builder().user(user1).date(Date.valueOf("2000-12-31")).status(OrderStatus.PENDING).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-12-31")).status(OrderStatus.PENDING).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-12-30")).status(OrderStatus.INPROGRESS).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-12-30")).status(OrderStatus.INPROGRESS).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-11-30")).status(OrderStatus.PENDING).build(),
-				Order.builder().user(user1).date(Date.valueOf("2000-11-30")).status(OrderStatus.COMPLETED).build()
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,31, 0, 0)).status(OrderStatus.PENDING).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,31, 0, 0)).status(OrderStatus.PENDING).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,30, 0, 0)).status(OrderStatus.INPROGRESS).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,12,30, 0, 0)).status(OrderStatus.INPROGRESS).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,11,30, 0, 0)).status(OrderStatus.PENDING).build(),
+				Order.builder().user(user1).date(LocalDateTime.of(2000,11,30, 0, 0)).status(OrderStatus.COMPLETED).build()
 		);
 		orderStore.saveAll(orders);
 		

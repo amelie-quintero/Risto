@@ -1,6 +1,6 @@
 package com.example.Risto.services;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +60,7 @@ public class OrderService {
 		return false;
 	}
 	
-	public List<Order> findOrdersInDateRange(Date startDate, Date endDate) {
+	public List<Order> findOrdersInDateRange(LocalDateTime startDate, LocalDateTime endDate) {
 		List<Order> orders = this.orderStore.findByDateBetween(startDate, endDate);
 		return orders;
 	}

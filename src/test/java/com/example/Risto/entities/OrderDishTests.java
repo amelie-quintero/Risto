@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
 import com.example.Risto.config.TestAuditorConfig;
 import com.example.Risto.constants.OrderStatus;
 
@@ -37,8 +35,8 @@ public class OrderDishTests {
 	@BeforeEach
 	void setup() {
 		user = entityManager.persist(User.builder().active(true).email("example@example.com").username("user").password("pw").build());
-		order1 = entityManager.persist(Order.builder().user(user).status(OrderStatus.PENDING).date(Date.valueOf("2000-10-10")).build());
-		order1 = entityManager.persist(Order.builder().user(user).status(OrderStatus.PENDING).date(Date.valueOf("2000-12-10")).build());
+		order1 = entityManager.persist(Order.builder().user(user).status(OrderStatus.PENDING).date(LocalDateTime.of(2000,12,30, 0, 0)).build());
+		order1 = entityManager.persist(Order.builder().user(user).status(OrderStatus.PENDING).date(LocalDateTime.of(2000,12,31, 0, 0)).build());
 		dish1 = entityManager.persist(Dish.builder().name("dish1").price(12.0).build());
 		dish1 = entityManager.persist(Dish.builder().name("dish2").price(16.0).build());
 		od1 = entityManager.persistAndFlush(OrderDish.builder().order(order1).dish(dish1).notes("test").build());

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ public class OrderTests {
 	void setup() {
 		user1 = entityManager.persist(User.builder().active(true).email("user1@example.com").username("user1").password("pw1").build());
 		user2 = entityManager.persist(User.builder().active(true).email("user2@example.com").username("user2").password("pw2").build());
-		o1 = entityManager.persistAndFlush(Order.builder().date(Date.valueOf("2000-12-12")).status(OrderStatus.PENDING).user(user1).build());
+		o1 = entityManager.persistAndFlush(Order.builder().date(LocalDateTime.of(2000,12,12, 0, 0)).status(OrderStatus.PENDING).user(user1).build());
 	}
 	
 	@Test
@@ -59,7 +59,7 @@ public class OrderTests {
 	@Test
 	@DisplayName(value = "Test that the date field is correctly written and read")
 	void testDate() {
-		Date date = Date.valueOf("2000-12-31");
+		LocalDateTime date = LocalDateTime.of(2000,12,31, 0, 0);
 		o1.setDate(date);
 		o2 = entityManager.persistAndFlush(o1);
 		assertEquals(date, o2.getDate());

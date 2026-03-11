@@ -1,6 +1,6 @@
 package com.example.Risto.entities;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.example.Risto.constants.OrderStatus;
@@ -32,7 +32,7 @@ public class Order extends AuditedEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private Date date;
+	private LocalDateTime date;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
