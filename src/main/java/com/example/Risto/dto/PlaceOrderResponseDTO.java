@@ -11,4 +11,5 @@ public class PlaceOrderResponseDTO {
 	private boolean success;
 	private int orderId;
 	private LocalDateTime estimatedReadyAt;
+	private String message;
 }
