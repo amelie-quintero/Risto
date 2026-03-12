@@ -8,12 +8,16 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import com.example.Risto.constants.OrderStatus;
+import com.example.Risto.dto.PlaceOrderRequestDTO.PlaceOrderRequestDishDTO;
 import com.example.Risto.entities.Dish;
 import com.example.Risto.entities.Order;
 import com.example.Risto.entities.OrderDish;
+import com.example.Risto.entities.User;
 import com.example.Risto.exceptions.MissingIngredientException;
+import com.example.Risto.repositories.OrderDishRepository;
 import com.example.Risto.repositories.OrderRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +27,9 @@ public class OrderService {
 	
 	@Autowired
 	private OrderRepository orderStore;
+	
+	@Autowired
+	private OrderDishRepository odStore;
 	
 	@Autowired
 	private DishService dishService;
@@ -68,6 +75,22 @@ public class OrderService {
 	public List<Order> getOrdersWithStatus(OrderStatus status) {
 		List<Order> orders = this.orderStore.findByStatus(status);
 		return orders;
+	}
+	
+	@Transactional
+	public Order createOrder(User user, List<PlaceOrderRequestDishDTO> dishes) {
+		Order order = orderStore.save(Order.builder().date(LocalDateTime.now()).user(user).status(OrderStatus.PENDING).build());
+		List<OrderDish> orderDishes = new ArrayList<OrderDish>();
+		dishes.forEach(dishDto -> {
+			Dish dish = dishService.getDishById(dishDto.getDishId());
+			if (!ObjectUtils.isEmpty(dish)) {
+				orderDishes.add(OrderDish.builder().dish(dish).order(order).notes(dishDto.getNotes()).build());
+			}
+		});
+		if (!orderDishes.isEmpty()) {
+			odStore.saveAll(orderDishes);
+		}
+		return order;
 	}
 	
 	@Transactional(rollbackOn = {MissingIngredientException.class})
