@@ -13,7 +13,7 @@ public class MissingIngredientException extends Exception {
 	}
 	
 	public MissingIngredientException(List<String> missing) {
-		String message = Messages.Errors.MISSINGINGREDIENTEXCEPTIONMSG + String.join(", ", missing);
+		String message = Messages.Errors.MISSING_INGREDIENT_EXCEPTION_MSG + String.join(", ", missing);
 		new MissingIngredientException(message);
 	}
 }
