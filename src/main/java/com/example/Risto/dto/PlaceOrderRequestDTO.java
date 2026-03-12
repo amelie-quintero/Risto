@@ -10,7 +10,7 @@ public class PlaceOrderRequestDTO {
 	private List<PlaceOrderRequestDishDTO> dishes;
 	
 	@Data
-	private class PlaceOrderRequestDishDTO {
+	public class PlaceOrderRequestDishDTO {
 		private int dishId;
 		private String notes;
 	}
