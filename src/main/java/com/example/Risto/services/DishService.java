@@ -28,6 +28,11 @@ public class DishService {
 	@Autowired
 	private IngredientRepository ingredientStore;
 	
+	public Dish getDishById(int id) {
+		Optional<Dish> dishOpt = dishStore.findById(id);
+		return dishOpt.orElse(null);
+	}
+	
 	public Dish getDishByName(String name) {
 		Optional<Dish> dishOpt = this.dishStore.findByName(name);
 		Dish dish = dishOpt.get();
