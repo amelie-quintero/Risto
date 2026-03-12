@@ -31,9 +31,11 @@ public class UserService {
 		return users;
 	}
 	
-	public boolean isActiveUser(int userId) {
+	public User getActiveUser(int userId) {
 		User user = getUser(userId);
-		return !ObjectUtils.isEmpty(user) && user.getActive().booleanValue();
+		return !ObjectUtils.isEmpty(user) && user.getActive()
+				? user
+				: null;
 	}
 	
 	public User getUser(int userId) {
