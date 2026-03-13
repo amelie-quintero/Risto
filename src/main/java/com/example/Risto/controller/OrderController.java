@@ -32,7 +32,7 @@ public class OrderController {
 		User user = userService.getActiveUser(data.getUserId());
 		if (!ObjectUtils.isEmpty(user)) {
 			Order order = orderService.createOrder(user, data.getDishes());
-			return PlaceOrderResponseDTO.builder().success(true).message(Messages.Success.ORDER_SUCCESS).build();
+			return PlaceOrderResponseDTO.builder().success(true).orderId(order.getId()).message(Messages.Success.ORDER_SUCCESS).build();
 		} else {
 			message = Messages.Errors.NOT_AN_ACTIVE_USER;
 		}
