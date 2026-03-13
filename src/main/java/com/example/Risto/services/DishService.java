@@ -76,12 +76,16 @@ public class DishService {
 			if (newAmount < Double.valueOf(0.0)) {
 				missingIng.add(i.getName());
 			}
-			i.setAmount(newAmount);
+			if (make) {
+				i.setAmount(newAmount);
+			}
 			ingredients.add(i);
 		}
 		if (missingIng.size() > 0) {
 			throw new MissingIngredientException(missingIng);
 		}
-		ingredientStore.saveAll(ingredients);
+		if (make) {
+			ingredientStore.saveAll(ingredients);
+		}
 	}
 }
