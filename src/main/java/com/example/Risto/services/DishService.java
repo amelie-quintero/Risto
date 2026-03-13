@@ -88,4 +88,23 @@ public class DishService {
 			ingredientStore.saveAll(ingredients);
 		}
 	}
+	
+	public List<Dish> getMenu(Boolean full) {
+		List<Dish> allDishes = (List<Dish>) dishStore.findAll();
+		if (full) {
+			return allDishes;
+		}
+		
+		List<Dish> inStock = new ArrayList<Dish>();
+		allDishes.forEach(dish -> {
+			try {
+				processDish(dish, false);
+				inStock.add(dish);
+			} catch (MissingIngredientException e) {
+//				TODO add logging for dishes that are out of stock
+			}
+		});
+		
+		return inStock;
+	}
 }
