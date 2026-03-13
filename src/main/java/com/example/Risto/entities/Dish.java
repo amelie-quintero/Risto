@@ -2,9 +2,13 @@ package com.example.Risto.entities;
 
 import java.util.Set;
 
+import com.example.Risto.constants.DishCategory;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,6 +39,10 @@ public class Dish extends AuditedEntity {
 	@Positive
 	@Column(name = "prep_time")
 	private Integer prepTime;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "category")
+	private DishCategory category;
 	
 	@OneToMany(targetEntity = com.example.Risto.entities.DishIngredient.class,
 			cascade = CascadeType.ALL,
