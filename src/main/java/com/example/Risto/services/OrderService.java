@@ -67,13 +67,22 @@ public class OrderService {
 		return false;
 	}
 	
-	public List<Order> findOrdersInDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+	public List<Order> getAllOrders() {
+		return (List<Order>) orderStore.findAll();
+	}
+	
+	public List<Order> getOrdersInDateRange(LocalDateTime startDate, LocalDateTime endDate) {
 		List<Order> orders = this.orderStore.findByDateBetween(startDate, endDate);
 		return orders;
 	}
 	
 	public List<Order> getOrdersWithStatus(OrderStatus status) {
 		List<Order> orders = this.orderStore.findByStatus(status);
+		return orders;
+	}
+	
+	public List<Order> getOrdersInRangeWithStatus(OrderStatus status, LocalDateTime startDate, LocalDateTime endDate) {
+		List<Order> orders = orderStore.findByStatusWithDateBetween(status, startDate, endDate);
 		return orders;
 	}
 	
